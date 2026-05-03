@@ -75,12 +75,191 @@ CREATE TABLE CustomerChurn (
 ## SQL Queries :
 
 #### 1. Total Customers
+```sql
 
 SELECT COUNT(*) AS TotalCustomers
 FROM CustomerChurn;
+```sql
 
 #### 2. Total Churned Customers
+```sql
 
 SELECT COUNT(*) AS ChurnedCustomers
 FROM CustomerChurn
 WHERE Churn = 'Yes';
+```sql
+
+#### 3. Overall Churn Rate
+
+```sql
+
+SELECT 
+    ROUND(
+        (SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) * 100.0)
+        / COUNT(*),
+    2) AS ChurnRate
+FROM CustomerChurn;
+```sql
+
+#### 4. Churn Rate by Contract Type
+
+```sql
+
+SELECT 
+    ContractType,
+    COUNT(*) AS TotalCustomers,
+    SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) AS ChurnedCustomers,
+    ROUND(
+        (SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) * 100.0)
+        / COUNT(*),
+    2) AS ChurnRate
+FROM CustomerChurn
+GROUP BY ContractType
+ORDER BY ChurnRate DESC;
+```sql
+
+#### 5. Average Monthly Charges by Churn
+
+```sql
+
+SELECT 
+    Churn,
+    ROUND(AVG(MonthlyCharges),2) AS AvgMonthlyCharges
+FROM CustomerChurn
+GROUP BY Churn;
+```sql
+
+#### 6. Customers Without Tech Support More Likely to Churn
+
+```sql
+
+SELECT 
+    TechSupport,
+    COUNT(*) AS TotalCustomers,
+    SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) AS ChurnedCustomers
+FROM CustomerChurn
+GROUP BY TechSupport;
+```sql
+
+#### 7. Churn by Internet Service
+
+```sql
+SELECT 
+    InternetService,
+    COUNT(*) AS TotalCustomers,
+    SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) AS ChurnedCustomers,
+    ROUND(
+        (SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) * 100.0)
+        / COUNT(*),
+    2) AS ChurnRate
+FROM CustomerChurn
+GROUP BY InternetService
+ORDER BY ChurnRate DESC;
+```sql
+
+#### 8. High Value Customers Who Churned
+
+```sql
+
+SELECT 
+    CustomerID,
+    TotalCharges,
+    MonthlyCharges,
+    ContractType
+FROM CustomerChurn
+WHERE Churn = 'Yes'
+AND TotalCharges > 5000
+ORDER BY TotalCharges DESC;
+```sql
+
+#### 9. Tenure Analysis
+
+```sql
+
+SELECT 
+    CASE
+        WHEN Tenure BETWEEN 0 AND 12 THEN '0-1 Year'
+        WHEN Tenure BETWEEN 13 AND 24 THEN '1-2 Years'
+        WHEN Tenure BETWEEN 25 AND 48 THEN '2-4 Years'
+        ELSE '4+ Years'
+    END AS TenureGroup,
+    
+    COUNT(*) AS TotalCustomers,
+    
+    SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) AS ChurnedCustomers,
+    
+    ROUND(
+        (SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) * 100.0)
+        / COUNT(*),
+    2) AS ChurnRate
+
+FROM CustomerChurn
+GROUP BY TenureGroup
+ORDER BY ChurnRate DESC;
+```sql
+
+#### 10. Top 10 Customers with Highest Charges
+
+```sql
+
+SELECT TOP 10
+    CustomerID,
+    TotalCharges
+FROM CustomerChurn
+ORDER BY TotalCharges DESC;
+```sql
+
+#### 11. Rank Customers by Total Charges
+
+```sql
+
+SELECT 
+    CustomerID,
+    TotalCharges,
+    RANK() OVER(ORDER BY TotalCharges DESC) AS ChargeRank
+FROM CustomerChurn;
+```sql
+
+#### 12. Duplicate Record Check
+
+```sql
+
+SELECT 
+    CustomerID,
+    COUNT(*) AS DuplicateCount
+FROM CustomerChurn
+GROUP BY CustomerID
+HAVING COUNT(*) > 1;
+```sql
+
+
+
+## Key Findings / Results
+
+- Customers with month-to-month contracts had the highest churn rate
+- Customers without tech support were more likely to leave
+- Higher monthly charges increased churn probability
+- Customers with shorter tenure had higher churn rates
+- Fiber internet users showed higher churn compared to other services
+
+
+## Recommendations
+
+- Offer discounts for long-term contracts
+- Improve customer support services
+- Create loyalty programs for new customers
+- Reduce service issues for high-paying customers
+- Provide personalized retention offers for high-risk customers
+- Monitor customers with high monthly charges more closely
+
+
+### Tools Used
+- SQL Server / MySQL
+- Window Functions
+- Aggregate Functions
+- CASE Statements
+- GROUP BY and JOINs
+- Data Cleaning Techniques
+
+
+
