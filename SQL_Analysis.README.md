@@ -55,7 +55,7 @@ The goal of this project was to help the business understand why customers are l
 
 
 
-## SQL Table Creation
+## SQL Table Creation:
 ```sql
 
 CREATE TABLE CustomerChurn (
@@ -70,23 +70,21 @@ CREATE TABLE CustomerChurn (
     TechSupport VARCHAR(10),
     Churn VARCHAR(10)
 );
-```sql
 
 
  ### 1. Total Customers
 
-```sql
+
 SELECT COUNT(*) AS TotalCustomers
 FROM CustomerChurn;
-```sql
+
 
 ### 2. Total Churned Customers
 
-```sql
+
 SELECT COUNT(*) AS ChurnedCustomers
 FROM CustomerChurn
 WHERE Churn = 'Yes';
-```sql
 
  3. Overall Churn Rate
 
@@ -166,8 +164,6 @@ ORDER BY TotalCharges DESC;
 
  9. Tenure Analysis
 
-
-
 SELECT 
     CASE
         WHEN Tenure BETWEEN 0 AND 12 THEN '0-1 Year'
@@ -192,8 +188,6 @@ ORDER BY ChurnRate DESC;
 
  10. Top 10 Customers with Highest Charges
 
-
-
 SELECT TOP 10
     CustomerID,
     TotalCharges
@@ -203,7 +197,6 @@ ORDER BY TotalCharges DESC;
 
  11. Rank Customers by Total Charges
 
-
 SELECT 
     CustomerID,
     TotalCharges,
@@ -212,7 +205,6 @@ FROM CustomerChurn;
 
 
  12. Duplicate Record Check
-
 
 SELECT 
     CustomerID,
