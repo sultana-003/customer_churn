@@ -55,7 +55,7 @@ The goal of this project was to help the business understand why customers are l
 
 
 
-## SQL Table Creation:
+## SQL Analysis
 ```sql
 
 CREATE TABLE CustomerChurn (
@@ -72,22 +72,18 @@ CREATE TABLE CustomerChurn (
 );
 
 
- ### 1. Total Customers
-
+ 1. Total Customers
 
 SELECT COUNT(*) AS TotalCustomers
 FROM CustomerChurn;
 
-
-### 2. Total Churned Customers
-
+ 2. Total Churned Customers
 
 SELECT COUNT(*) AS ChurnedCustomers
 FROM CustomerChurn
 WHERE Churn = 'Yes';
 
  3. Overall Churn Rate
-
 
 SELECT 
     ROUND(
@@ -98,8 +94,7 @@ FROM CustomerChurn;
 
  4. Churn Rate by Contract Type
 
-
-SELECT 
+  SELECT 
     ContractType,
     COUNT(*) AS TotalCustomers,
     SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) AS ChurnedCustomers,
@@ -113,7 +108,6 @@ ORDER BY ChurnRate DESC;
 
  5. Average Monthly Charges by Churn
 
-
 SELECT 
     Churn,
     ROUND(AVG(MonthlyCharges),2) AS AvgMonthlyCharges
@@ -121,7 +115,6 @@ FROM CustomerChurn
 GROUP BY Churn;
 
  6. Customers Without Tech Support More Likely to Churn
-
 
 SELECT 
     TechSupport,
@@ -132,7 +125,6 @@ GROUP BY TechSupport;
 
 
  7. Churn by Internet Service
-
 
 SELECT 
     InternetService,
@@ -148,8 +140,6 @@ ORDER BY ChurnRate DESC;
 
 
  8. High Value Customers Who Churned
-
-
 
 SELECT 
     CustomerID,
@@ -212,7 +202,7 @@ SELECT
 FROM CustomerChurn
 GROUP BY CustomerID
 HAVING COUNT(*) > 1;
-```sql
+```
 
 
 
