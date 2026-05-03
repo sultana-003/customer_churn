@@ -72,26 +72,24 @@ CREATE TABLE CustomerChurn (
 );
 ```sql
 
-## SQL Queries :
 
-#### 1. Total Customers
+ ### 1. Total Customers
+
 ```sql
-
 SELECT COUNT(*) AS TotalCustomers
 FROM CustomerChurn;
 ```sql
 
-#### 2. Total Churned Customers
-```sql
+### 2. Total Churned Customers
 
+```sql
 SELECT COUNT(*) AS ChurnedCustomers
 FROM CustomerChurn
 WHERE Churn = 'Yes';
 ```sql
 
-#### 3. Overall Churn Rate
+ 3. Overall Churn Rate
 
-```sql
 
 SELECT 
     ROUND(
@@ -99,11 +97,9 @@ SELECT
         / COUNT(*),
     2) AS ChurnRate
 FROM CustomerChurn;
-```sql
 
-#### 4. Churn Rate by Contract Type
+ 4. Churn Rate by Contract Type
 
-```sql
 
 SELECT 
     ContractType,
@@ -116,22 +112,18 @@ SELECT
 FROM CustomerChurn
 GROUP BY ContractType
 ORDER BY ChurnRate DESC;
-```sql
 
-#### 5. Average Monthly Charges by Churn
+ 5. Average Monthly Charges by Churn
 
-```sql
 
 SELECT 
     Churn,
     ROUND(AVG(MonthlyCharges),2) AS AvgMonthlyCharges
 FROM CustomerChurn
 GROUP BY Churn;
-```sql
 
-#### 6. Customers Without Tech Support More Likely to Churn
+ 6. Customers Without Tech Support More Likely to Churn
 
-```sql
 
 SELECT 
     TechSupport,
@@ -139,11 +131,11 @@ SELECT
     SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) AS ChurnedCustomers
 FROM CustomerChurn
 GROUP BY TechSupport;
-```sql
 
-#### 7. Churn by Internet Service
 
-```sql
+ 7. Churn by Internet Service
+
+
 SELECT 
     InternetService,
     COUNT(*) AS TotalCustomers,
@@ -155,11 +147,11 @@ SELECT
 FROM CustomerChurn
 GROUP BY InternetService
 ORDER BY ChurnRate DESC;
-```sql
 
-#### 8. High Value Customers Who Churned
 
-```sql
+ 8. High Value Customers Who Churned
+
+
 
 SELECT 
     CustomerID,
@@ -170,11 +162,11 @@ FROM CustomerChurn
 WHERE Churn = 'Yes'
 AND TotalCharges > 5000
 ORDER BY TotalCharges DESC;
-```sql
 
-#### 9. Tenure Analysis
 
-```sql
+ 9. Tenure Analysis
+
+
 
 SELECT 
     CASE
@@ -196,33 +188,31 @@ SELECT
 FROM CustomerChurn
 GROUP BY TenureGroup
 ORDER BY ChurnRate DESC;
-```sql
 
-#### 10. Top 10 Customers with Highest Charges
 
-```sql
+ 10. Top 10 Customers with Highest Charges
+
+
 
 SELECT TOP 10
     CustomerID,
     TotalCharges
 FROM CustomerChurn
 ORDER BY TotalCharges DESC;
-```sql
 
-#### 11. Rank Customers by Total Charges
 
-```sql
+ 11. Rank Customers by Total Charges
+
 
 SELECT 
     CustomerID,
     TotalCharges,
     RANK() OVER(ORDER BY TotalCharges DESC) AS ChargeRank
 FROM CustomerChurn;
-```sql
 
-#### 12. Duplicate Record Check
 
-```sql
+ 12. Duplicate Record Check
+
 
 SELECT 
     CustomerID,
